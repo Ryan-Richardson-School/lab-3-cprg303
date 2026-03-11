@@ -13,9 +13,10 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { employeeSchema, EmployeeFormData } from "../validation/employeeSchema";
+import { useNavigation } from "@react-navigation/native";
 
-// Main componnent for employee stuff
 export default function EmployeeForm() {
+  const navigation = useNavigation();
 
   const {
     control,
@@ -24,7 +25,7 @@ export default function EmployeeForm() {
     reset,
   } = useForm<EmployeeFormData>({
     resolver: zodResolver(employeeSchema),
-    mode: "onChange", 
+    mode: "onChange",
     defaultValues: {
       fullName: "",
       email: "",
@@ -54,16 +55,15 @@ Department: ${data.department}`
   return (
     <KeyboardAvoidingView
       style={styles.flex}
-      behavior={Platform.OS === "ios" ? "padding" : undefined} 
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView contentContainerStyle={styles.container}>
-
         <Text style={styles.title}>Employee Information Form</Text>
         <Text style={styles.subtitle}>Enter employee details below</Text>
 
+        {/* Full Name */}
         <View style={styles.formGroup}>
           <Text style={styles.label}>Full Name</Text>
-
           <Controller
             control={control}
             name="fullName"
@@ -73,22 +73,18 @@ Department: ${data.department}`
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={[
-                  styles.input,
-                  errors.fullName ? styles.inputError : null,
-                ]}
+                style={[styles.input, errors.fullName && styles.inputError]}
               />
             )}
           />
-
-          {errors.fullName ? (
+          {errors.fullName && (
             <Text style={styles.errorText}>{errors.fullName.message}</Text>
-          ) : null}
+          )}
         </View>
 
+        {/* Email */}
         <View style={styles.formGroup}>
           <Text style={styles.label}>Email</Text>
-
           <Controller
             control={control}
             name="email"
@@ -100,19 +96,18 @@ Department: ${data.department}`
                 onBlur={onBlur}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                style={[styles.input, errors.email ? styles.inputError : null]}
+                style={[styles.input, errors.email && styles.inputError]}
               />
             )}
           />
-
-          {errors.email ? (
+          {errors.email && (
             <Text style={styles.errorText}>{errors.email.message}</Text>
-          ) : null}
+          )}
         </View>
 
+        {/* Phone */}
         <View style={styles.formGroup}>
           <Text style={styles.label}>Phone Number</Text>
-
           <Controller
             control={control}
             name="phone"
@@ -123,19 +118,18 @@ Department: ${data.department}`
                 onChangeText={onChange}
                 onBlur={onBlur}
                 keyboardType="phone-pad"
-                style={[styles.input, errors.phone ? styles.inputError : null]}
+                style={[styles.input, errors.phone && styles.inputError]}
               />
             )}
           />
-
-          {errors.phone ? (
+          {errors.phone && (
             <Text style={styles.errorText}>{errors.phone.message}</Text>
-          ) : null}
+          )}
         </View>
 
+        {/* Postal Code */}
         <View style={styles.formGroup}>
           <Text style={styles.label}>Postal Code</Text>
-
           <Controller
             control={control}
             name="postalCode"
@@ -146,20 +140,16 @@ Department: ${data.department}`
                 onChangeText={onChange}
                 onBlur={onBlur}
                 autoCapitalize="characters"
-                style={[
-                  styles.input,
-                  errors.postalCode ? styles.inputError : null,
-                ]}
+                style={[styles.input, errors.postalCode && styles.inputError]}
               />
             )}
           />
-
-          {errors.postalCode ? (
+          {errors.postalCode && (
             <Text style={styles.errorText}>{errors.postalCode.message}</Text>
-          ) : null}
+          )}
         </View>
 
-    
+        {/* Employee ID */}
         <View style={styles.formGroup}>
           <Text style={styles.label}>Employee ID</Text>
           <Controller
@@ -172,22 +162,18 @@ Department: ${data.department}`
                 onChangeText={onChange}
                 onBlur={onBlur}
                 autoCapitalize="characters"
-                style={[
-                  styles.input,
-                  errors.employeeId ? styles.inputError : null,
-                ]}
+                style={[styles.input, errors.employeeId && styles.inputError]}
               />
             )}
           />
-
-          {errors.employeeId ? (
+          {errors.employeeId && (
             <Text style={styles.errorText}>{errors.employeeId.message}</Text>
-          ) : null}
+          )}
         </View>
 
+        {/* Department */}
         <View style={styles.formGroup}>
           <Text style={styles.label}>Department</Text>
-
           <Controller
             control={control}
             name="department"
@@ -197,23 +183,20 @@ Department: ${data.department}`
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={[
-                  styles.input,
-                  errors.department ? styles.inputError : null,
-                ]}
+                style={[styles.input, errors.department && styles.inputError]}
               />
             )}
           />
-
-          {errors.department ? (
+          {errors.department && (
             <Text style={styles.errorText}>{errors.department.message}</Text>
-          ) : null}
+          )}
         </View>
 
+        {/* Submit */}
         <TouchableOpacity
           style={[
             styles.button,
-            !isValid || isSubmitting ? styles.buttonDisabled : null,
+            (!isValid || isSubmitting) && styles.buttonDisabled,
           ]}
           onPress={handleSubmit(onSubmit)}
           disabled={!isValid || isSubmitting}
@@ -223,12 +206,27 @@ Department: ${data.department}`
           </Text>
         </TouchableOpacity>
 
+        {/* Navigation Buttons */}
+        <View style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#10b981" }]}
+            onPress={() => navigation.navigate("SignIn")}
+          >
+            <Text style={styles.buttonText}>Go to Sign In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#6d28d9", marginTop: 10 }]}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={styles.buttonText}>Go to Sign Up</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
-// Styles
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
