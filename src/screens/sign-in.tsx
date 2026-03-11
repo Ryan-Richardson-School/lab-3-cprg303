@@ -12,8 +12,10 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, SignInFormData } from "../validation/signInSchema";
+import { useNavigation } from "@react-navigation/native"; 
 
 export default function SignIn() {
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
@@ -31,6 +33,7 @@ export default function SignIn() {
   const onSubmit = (data: SignInFormData) => {
     console.log("Sign In Submitted:", data);
     reset();
+    navigation.navigate("TabLayout");
   };
 
   return (
@@ -104,6 +107,16 @@ export default function SignIn() {
             {isSubmitting ? "Signing In..." : "Sign In"}
           </Text>
         </TouchableOpacity>
+
+            {/* Button to redriect signup */}
+        <View style={styles.bottomContainer}>
+  
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#6d28d9", marginTop: 10 }]}  
+            onPress={() => navigation.navigate("SignUp")}>
+              <Text style={styles.buttonText}>Don't have an account? Sign Up</Text>
+            </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -174,4 +187,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
   },
+  bottomContainer:{
+    marginTop: 20,
+  },
+  bottomText: {
+    fontSize: 15,
+    color: "#6b7280",
+    marginBottom: 8,
+  }
 });

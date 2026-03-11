@@ -206,23 +206,7 @@ Department: ${data.department}`
           </Text>
         </TouchableOpacity>
 
-        {/* Navigation Buttons */}
-        <View style={{ marginTop: 20 }}>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: "#10b981" }]}
-            onPress={() => navigation.navigate("SignIn")}
-          >
-            <Text style={styles.buttonText}>Go to Sign In</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: "#6d28d9", marginTop: 10 }]}
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text style={styles.buttonText}>Go to Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      </ScrollView> 
     </KeyboardAvoidingView>
   );
 }
