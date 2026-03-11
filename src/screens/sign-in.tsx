@@ -15,7 +15,7 @@ import { signInSchema, SignInFormData } from "../validation/signInSchema";
 import { useNavigation } from "@react-navigation/native"; 
 
 export default function SignIn() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const {
     control,
     handleSubmit,
