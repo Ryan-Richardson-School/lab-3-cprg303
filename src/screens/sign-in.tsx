@@ -13,9 +13,10 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, SignInFormData } from "../validation/signInSchema";
 import { useNavigation } from "@react-navigation/native"; 
+import { any } from "zod";
 
 export default function SignIn() {
-  const navigation = useNavigation();
+  const navigation = useNavigation <any>();
   const {
     control,
     handleSubmit,
